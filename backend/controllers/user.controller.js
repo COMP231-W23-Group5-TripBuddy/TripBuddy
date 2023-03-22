@@ -61,19 +61,21 @@ exports.processRegistration = (req, res, next) => {
     return res.json({ success: true, message: "User Registered Successfully" });
   });
 }
-
-exports.processLogout = (req, res, next) => {
-  req.logOut((err) => {
-    if (err) {
-      console.error(err);
-      res.end(err);
-    }
-
-    console.log("User Logged Out");
-  });
-
-  res.json({ success: true, message: "User logged out successfully" });
-}
+exports.processLogout = async (req, res, next) => {
+  // we were generating access token with created timestamp field, so when the user loggged out we clearing the timestamp. that means the token will be invalidated.
+  try {
+    await User.updateOne(
+      { _id: res.locals.userId },
+      {
+        accessCreatedAt: null,
+      }
+    );
+    return res.json({ success: true, message: "User logged out successfully" });
+  } catch (err) {
+    console.log(err)
+    return res.json({ success: true, message: "Failed to logout" });
+  }
+};
 
 exports.getAuthImageUploadData = (req, res) => { // function for uploading images
   const result = imageUpload.getAuthenticationParameters()
