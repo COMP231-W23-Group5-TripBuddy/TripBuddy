@@ -9,5 +9,6 @@ router.get('/getSubscribedTo', authUtils.isAuthenticated, ProfileController.getS
 router.put('/updateChecklist', authUtils.isAuthenticated, ProfileController.updateChecklist);
 router.get('/getChecklist', authUtils.isAuthenticated, ProfileController.getChecklist);
 router.get('/getContentProvider/:id', ProfileController.getContentProviderProfile);
+router.get('/userInfo/:id', ProfileController.getUserLocationAndInformation);
 
 module.exports = router;
