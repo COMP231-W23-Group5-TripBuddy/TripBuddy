@@ -99,6 +99,17 @@ exports.getContentProviderProfile = async (req, res) => {
   }
 }
 
+exports.getUserLocationAndInformation = async (req, res) => {
+  try {
+    const userId = res.locals.userId;
+    const user = await User.findById(userId)
+    const userContacts = await User.find({_id: {$in: user.userContacts}});
+    return res.status(200).json(userContacts);
+  } catch (err) {
+    res.status(500).send({message: 'Server error'});
+  }
+}
+
 const deleteImage = async (imageName) => {
   const images = await imageUpload.listFiles({name: imageName})
   const imageId = images[0].fileId
