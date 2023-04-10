@@ -82,6 +82,7 @@ const UserSchema = new mongoose.Schema(
       default: false,
     },
     emergencyContacts: [mongoose.Schema.Types.ObjectId],
+    userContacts: [mongoose.Schema.Types.ObjectId],
     savedPosts: [{ type: mongoose.Schema.Types.ObjectId, ref: "Post" }],  
     checklist: {
       type: [{
